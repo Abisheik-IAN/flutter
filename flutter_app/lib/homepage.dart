@@ -34,12 +34,33 @@ class Homepage extends StatefulWidget {
   Widget build(BuildContext context) {
 
     final tabs=[
-      Center(child: Text('Welcome what can i help you?')),
+//      Container(
+//        child: ListView(
+//          children: <Widget>[
+//            Container(
+//              child: Row(
+//                children: <Widget>[
+//                  CircleAvatar(backgroundImage: NetworkImage('https://www.pinkvilla.com/files/styles/contentpreview/public/suriya_1.jpg?itok=PAyhlkot'),
+//                  radius: 50,),
+////                  Column(
+////                    children: <Widget>[
+////                      Text('Abisheik',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+////                      Text('54 liked photos',style: TextStyle(fontWeight: FontWeight.normal,fontSize: 8),)
+////                    ],
+////                  ),
+//                  Text('4 hours ago',style: TextStyle(fontSize: 6,color: Colors.grey),)
+//                ],
+//              ),
+//            )
+//          ],
+//        ),
+//      ),
+      Center(child: Text('Coming soon')),
       Center(child: Text('Coming soon')),
       Profile()
 
     ];
-    final app =["Home","Settings","My Profile"];
+    final app =["Feeds","Settings","My Profile"];
 
     if(_currentIndex==2){
       _appBarIcon= Icons.edit  ;

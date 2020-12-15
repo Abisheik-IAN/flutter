@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/profileView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 
 class Profile extends StatefulWidget {
@@ -10,6 +13,8 @@ class Profile extends StatefulWidget {
 }
 class _Profile extends State<Profile>{
 
+  PickedFile _image;
+  final ImagePicker _picker = ImagePicker();
 
   final _name=TextEditingController();
   final _surname=TextEditingController();
@@ -23,15 +28,37 @@ class _Profile extends State<Profile>{
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Center(
+              child:Stack(
+                children:[
               Container(
-                padding: EdgeInsets.fromLTRB(70.0, 30.0, 80.0, 15.0),
+                height: 130,
+                width: 130,
+//                padding: EdgeInsets.fromLTRB(70.0, 30.0, 80.0, 15.0),
                 child: Center(
                   child: CircleAvatar(
-                    backgroundImage:NetworkImage('https://www.pinkvilla.com/files/styles/contentpreview/public/suriya_1.jpg?itok=PAyhlkot') ,
+                    backgroundImage:_image== null ?NetworkImage('https://www.pinkvilla.com/files/styles/contentpreview/public/suriya_1.jpg?itok=PAyhlkot'):FileImage(File(_image.path)) ,
                     radius: 60,
                   ),
                 ),
               ),
+              Positioned(
+                bottom: 0,
+                  right: 0,
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        width: 4,
+                        color: Theme.of(context).scaffoldBackgroundColor
+                      ),
+                      color: Color.fromRGBO(69, 104, 220,3.0)
+                    ),
+                    child:Center(child: IconButton(icon:Icon(Icons.edit), color: Colors.white,onPressed: showBottomSheet)),
+                  )
+              ),]),),
               Container(
                   padding: EdgeInsets.fromLTRB(40.0, 5.0, 40.0, 0.0),
                   child:Center(
@@ -161,6 +188,33 @@ class _Profile extends State<Profile>{
       ProfileDetails(Name:Name,Surname:Surname,Email:Email,Phno:Phno,Pass:Pass),),
       );
     }
+  }
+  void showBottomSheet()=>showModalBottomSheet(
+      context: context,
+      builder: (context)=>Column(
+        mainAxisSize:MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.camera),
+            title: Text('Camera'),
+            onTap: (){profilePhoto(ImageSource.camera);},
+          ),
+          ListTile(
+            leading: Icon(Icons.photo),
+            title: Text('Gallery'),
+            onTap:(){ profilePhoto(ImageSource.gallery);},
+          )
+        ],
+
+      )
+  );
+
+  void profilePhoto(ImageSource source) async{
+    final pickedFile =await _picker.getImage(source: source,);
+    setState(() {
+      _image = pickedFile;
+    });
+
   }
 
 
