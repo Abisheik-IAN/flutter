@@ -1,144 +1,302 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterapp/aboutpage.dart';
 import 'package:flutterapp/drawer.dart';
 import 'package:flutterapp/main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutterapp/profile.dart';
+import 'package:flutterapp/jsonModelFeed.dart';
 
 import 'dart:convert';
 
 bool _enable=false;
+//Future<String> _loadAStudentAsset() async {
+//  return await rootBundle.loadString('assets/feed.json');
+//}
 
-class Homepage extends StatefulWidget {
+//Future<Feed> loadFeed() async {
+//  await wait(5);
+//  String jsonString = await _loadAStudentAsset();
+//  print(jsonString);
+//  final jsonResponse = json.decode(jsonString);
+//  return new Feed.fromJson(jsonResponse);
+//}
+//Future wait(int seconds) {
+//  return new Future.delayed(Duration(seconds: seconds), () => {});
+//}
+var json={
+  "Value":[
+    {
+      "profile":"https://data.whicdn.com/images/322027365/original.jpg?t=1541703413",
+      "name":"Jhon",
+      "post":"https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU",
+      "name":"Jhon wick",
+      "post":"https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg"
+    },
+    {
+      "profile":"https://wallpaperaccess.com/full/2213424.jpg",
+      "name":"Freaky_boi",
+      "post":"https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw"
+    },
+    {
+      "profile":"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "name":"James",
+      "post":"https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
+      "name":"Ramasamy",
+      "post":"https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg"
+    },
+    {
+      "profile":"https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg",
+      "name":"Ravi",
+      "post":"https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg"
+    },
+    {
+      "profile":"https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg",
+      "name":"Friends_call_me_venom",
+      "post":"https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg"
+    },
+    {
+      "profile":"https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg",
+      "name":"Mr.Dark",
+      "post":"https://i.redd.it/3xf02lpfmu131.jpg"
+    },
+    {
+      "profile":"https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg",
+      "name":"Dads_little_princess",
+      "post":"https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539"
+    },
+    {
+      "profile":"https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464",
+      "name":"prince",
+      "post":"https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all"
+    },
+    {
+      "profile":"https://data.whicdn.com/images/322027365/original.jpg?t=1541703413",
+      "name":"Jhon",
+      "post":"https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU",
+      "name":"Jhon wick",
+      "post":"https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg"
+    },
+    {
+      "profile":"https://wallpaperaccess.com/full/2213424.jpg",
+      "name":"Freaky_boi",
+      "post":"https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw"
+    },
+    {
+      "profile":"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "name":"James",
+      "post":"https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
+      "name":"Ramasamy",
+      "post":"https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg"
+    },
+    {
+      "profile":"https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg",
+      "name":"Ravi",
+      "post":"https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg"
+    },
+    {
+      "profile":"https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg",
+      "name":"Friends_call_me_venom",
+      "post":"https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg"
+    },
+    {
+      "profile":"https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg",
+      "name":"Mr.Dark",
+      "post":"https://i.redd.it/3xf02lpfmu131.jpg"
+    },
+    {
+      "profile":"https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg",
+      "name":"Dads_little_princess",
+      "post":"https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539"
+    },
+    {
+      "profile":"https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464",
+      "name":"prince",
+      "post":"https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all"
+    },
+    {
+      "profile":"https://data.whicdn.com/images/322027365/original.jpg?t=1541703413",
+      "name":"Jhon",
+      "post":"https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU",
+      "name":"Jhon wick",
+      "post":"https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg"
+    },
+    {
+      "profile":"https://wallpaperaccess.com/full/2213424.jpg",
+      "name":"Freaky_boi",
+      "post":"https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw"
+    },
+    {
+      "profile":"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "name":"James",
+      "post":"https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
+      "name":"Ramasamy",
+      "post":"https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg"
+    },
+    {
+      "profile":"https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg",
+      "name":"Ravi",
+      "post":"https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg"
+    },
+    {
+      "profile":"https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg",
+      "name":"Friends_call_me_venom",
+      "post":"https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg"
+    },
+    {
+      "profile":"https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg",
+      "name":"Mr.Dark",
+      "post":"https://i.redd.it/3xf02lpfmu131.jpg"
+    },
+    {
+      "profile":"https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg",
+      "name":"Dads_little_princess",
+      "post":"https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539"
+    },
+    {
+      "profile":"https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464",
+      "name":"prince",
+      "post":"https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all"
+    },
+    {
+      "profile":"https://data.whicdn.com/images/322027365/original.jpg?t=1541703413",
+      "name":"Jhon",
+      "post":"https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU",
+      "name":"Jhon wick",
+      "post":"https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg"
+    },
+    {
+      "profile":"https://wallpaperaccess.com/full/2213424.jpg",
+      "name":"Freaky_boi",
+      "post":"https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw"
+    },
+    {
+      "profile":"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "name":"James",
+      "post":"https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
+      "name":"Ramasamy",
+      "post":"https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg"
+    },
+    {
+      "profile":"https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg",
+      "name":"Ravi",
+      "post":"https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg"
+    },
+    {
+      "profile":"https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg",
+      "name":"Friends_call_me_venom",
+      "post":"https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg"
+    },
+    {
+      "profile":"https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg",
+      "name":"Mr.Dark",
+      "post":"https://i.redd.it/3xf02lpfmu131.jpg"
+    },
+    {
+      "profile":"https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg",
+      "name":"Dads_little_princess",
+      "post":"https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539"
+    },
+    {
+      "profile":"https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464",
+      "name":"prince",
+      "post":"https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all"
+    },
+    {
+      "profile":"https://data.whicdn.com/images/322027365/original.jpg?t=1541703413",
+      "name":"Jhon",
+      "post":"https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU",
+      "name":"Jhon wick",
+      "post":"https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg"
+    },
+    {
+      "profile":"https://wallpaperaccess.com/full/2213424.jpg",
+      "name":"Freaky_boi",
+      "post":"https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw"
+    },
+    {
+      "profile":"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "name":"James",
+      "post":"https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg"
+    },
+    {
+      "profile":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
+      "name":"Ramasamy",
+      "post":"https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg"
+    },
+    {
+      "profile":"https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg",
+      "name":"Ravi",
+      "post":"https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg"
+    },
+    {
+      "profile":"https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg",
+      "name":"Friends_call_me_venom",
+      "post":"https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg"
+    },
+    {
+      "profile":"https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg",
+      "name":"Mr.Dark",
+      "post":"https://i.redd.it/3xf02lpfmu131.jpg"
+    },
+    {
+      "profile":"https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg",
+      "name":"Dads_little_princess",
+      "post":"https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539"
+    },
+    {
+      "profile":"https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464",
+      "name":"prince",
+      "post":"https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all"
+    }
+  ]
+};
 
+class Homepage  extends StatefulWidget {
+  Homepage();
+ @override
+  _Homestate createState() => _Homestate();
+}
+  class _Homestate extends State<Homepage> {
+    User feed;
+    @override
+    void initState() {
+      super.initState();
+      feed = User.fromJson(json);
+//      loadFeed().then((s)=> setState((){
+//        feed= s;
+//      })
+//    );
 
+    }
 
-  @override
-  _Homestate createState()=> _Homestate();
-
-  }
-  class _Homestate extends State<Homepage>{
-
-//    List profile=[
-//      'https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464',
-//      'https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg',
-//      'https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg',
-//      'https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg',
-//      'https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-//      'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-//      'https://wallpaperaccess.com/full/2213424.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU',
-//      'https://data.whicdn.com/images/322027365/original.jpg?t=1541703413',
-//      'https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464',
-//      'https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg',
-//      'https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg',
-//      'https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg',
-//      'https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-//      'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-//      'https://wallpaperaccess.com/full/2213424.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU',
-//      'https://data.whicdn.com/images/322027365/original.jpg?t=1541703413',
-//      'https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464',
-//      'https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg',
-//      'https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg',
-//      'https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg',
-//      'https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-//      'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-//      'https://wallpaperaccess.com/full/2213424.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU',
-//      'https://data.whicdn.com/images/322027365/original.jpg?t=1541703413',
-//      'https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464',
-//      'https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg',
-//      'https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg',
-//      'https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg',
-//      'https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-//      'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-//      'https://wallpaperaccess.com/full/2213424.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU',
-//      'https://data.whicdn.com/images/322027365/original.jpg?t=1541703413',
-//      'https://img.republicworld.com/republic-prod/stories/promolarge/xxhdpi/xblezi1o6625itwk_1578310767.jpeg?tr=w-812,h-464',
-//      'https://as2.ftcdn.net/jpg/02/35/50/89/500_F_235508902_03gewLthliinMOVJmE2JR0mvhPPrJJO9.jpg',
-//      'https://i.pinimg.com/originals/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg',
-//      'https://www.goodmorningimagesdownload.com/wp-content/uploads/2020/05/Profile-Picture-5.jpg',
-//      'https://static.toiimg.com/thumb/msid-73940213,width-800,height-600,resizemode-75,imgsize-477992,pt-32,y_pad-40/73940213.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-//      'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-//      'https://wallpaperaccess.com/full/2213424.jpg',
-//      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyhjCfyRLG2QhUXsdBxfJIVzxfY_XFOo76lg&usqp=CAU',
-//      'https://data.whicdn.com/images/322027365/original.jpg?t=1541703413'];
-//    List name=[
-//      'Jhon','Jhon wick','James','Ramasamy','Ravi','Freaky_boi','Friends_call_me_venom','Mr.Dark','Dads_little_princess','prince',
-//      'Jhon','Jhon wick','James','Ramasamy','Ravi','Freaky_boi','Friends_call_me_venom','Mr.Dark','Dads_little_princess','prince',
-//      'Jhon','Jhon wick','James','Ramasamy','Ravi','Freaky_boi','Friends_call_me_venom','Mr.Dark','Dads_little_princess','prince',
-//      'Jhon','Jhon wick','James','Ramasamy','Ravi','Freaky_boi','Friends_call_me_venom','Mr.Dark','Dads_little_princess','prince',
-//      'Jhon','Jhon wick','James','Ramasamy','Ravi','Freaky_boi','Friends_call_me_venom','Mr.Dark','Dads_little_princess','prince'
-//    ];
-//
-//    List post=[
-//      'https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg',
-//      'https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg',
-//      'https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw',
-//      'https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg',
-//      'https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg',
-//      'https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg',
-//      'https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg',
-//      'https://i.redd.it/3xf02lpfmu131.jpg',
-//      'https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539',
-//      'https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all',
-//      'https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg',
-//      'https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg',
-//      'https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw',
-//      'https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg',
-//      'https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg',
-//      'https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg',
-//      'https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg',
-//      'https://i.redd.it/3xf02lpfmu131.jpg',
-//      'https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539',
-//      'https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all',
-//      'https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg',
-//      'https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg',
-//      'https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw',
-//      'https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg',
-//      'https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg',
-//      'https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg',
-//      'https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg',
-//      'https://i.redd.it/3xf02lpfmu131.jpg',
-//      'https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539',
-//      'https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all',
-//      'https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg',
-//      'https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg',
-//      'https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw',
-//      'https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg',
-//      'https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg',
-//      'https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg',
-//      'https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg',
-//      'https://i.redd.it/3xf02lpfmu131.jpg',
-//      'https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539',
-//      'https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all',
-//      'https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg',
-//      'https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg',
-//      'https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw',
-//      'https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg',
-//      'https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg',
-//      'https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg',
-//      'https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg',
-//      'https://i.redd.it/3xf02lpfmu131.jpg',
-//      'https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539',
-//      'https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all',
-//      'https://img.redbull.com/images/c_fill,g_auto,w_1500,h_1000/q_auto,f_auto/redbullcom/2018/11/16/53c293b7-3a90-4930-9139-b8d1e69443c6/pubg',
-//      'https://english.cdn.zeenews.com/sites/default/files/2020/12/13/904980-pubg-india-company.jpg',
-//      'https://play-lh.googleusercontent.com/proxy/2tj1HTTkxfLUCHMYCMY7Ik_u9Dv-ctrQ7tteluo8MkL9bUzSFutbEcvkGroJxU6PTS84IHjfzCYjRsCflXcZ5k_CV2OAD2Al4i_fUCrb6cBVNvtB4TZhu97Z=w720-h405-rw',
-//      'https://s3b.cashify.in/gpro/uploads/2020/11/05170435/PUBG-Mobile-Free-UC.jpg',
-//      'https://cdn.mos.cms.futurecdn.net/c3PMXyMnvvDG9Gw64z5Kb8.jpg',
-//      'https://cdn.videotapenews.com/wp-content/uploads/2020/11/image-10.jpg',
-//      'https://www.eurekalert.org/multimedia/pub/web/218059_web.jpg',
-//      'https://i.redd.it/3xf02lpfmu131.jpg',
-//      'https://clashofclans.com/uploaded-images/_1440x847_crop_center-center_90/CoC_Blog_Announcement_20160429.jpg?mtime=20160429082539',
-//      'https://nypost.com/wp-content/uploads/sites/2/2016/06/coc_titlescreen_2016.jpg?quality=80&strip=all'
-//    ];
     int _currentIndex=0;
     IconData _appBarIcon=null;
     bool _onClick(){
@@ -152,17 +310,11 @@ class Homepage extends StatefulWidget {
     }
 
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
 
     final tabs=[
-      FutureBuilder(builder: (context,snapshot){
-        var showData=json.decode(snapshot.data.toString());
-        return ListView.builder(
+       ListView.builder(
 
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -181,13 +333,13 @@ class Homepage extends StatefulWidget {
                         children: <Widget>[
                           CircleAvatar(
                             radius: 25.0,
-                            backgroundImage: NetworkImage(showData[index]['profile']),
+                            backgroundImage: NetworkImage(feed.value[index].profile),
                           ),
                           SizedBox(height: 15.0,width: 15.0,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(showData[index]['name'],style: TextStyle(fontSize: 20,color: Colors.grey),),
+                              Text(feed.value[index].name,style: TextStyle(fontSize: 20,color: Colors.grey),),
                               Text('42 liked 29 photos',style:TextStyle(fontSize: 12,fontWeight: FontWeight.bold)),
 
                             ],
@@ -197,14 +349,13 @@ class Homepage extends StatefulWidget {
                         ],
                       ),
                     ),
-                    Image.network(showData[index]['post'],fit:BoxFit.fill),
+                    Image.network(feed.value[index].post,fit:BoxFit.fill),
                   ],
                 ),
               );
             },itemCount:49
-        );
-      },future: DefaultAssetBundle.of(context).loadString("asserts/feed.json"),
-      ),
+        ),
+
 //      Center(child: Text('Coming soon')),
       Center(child: Text('Coming soon')),
       Profile()
