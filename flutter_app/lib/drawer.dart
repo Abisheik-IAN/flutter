@@ -34,7 +34,9 @@ class DrawerSlide extends StatelessWidget{
           ListTile(
             title: Text('Logout'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MyApp()));
+              Navigator.of(context)
+                  .pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  MyApp()), (Route<dynamic> route) => false);
             },
           ),
         ],
