@@ -32,6 +32,8 @@ dependencies:
   shared_preferences: ^0.5.12+4
   fluttertoast: ^7.1.5
   image_picker: ^0.6.7+14
+  flutter_bloc: ^6.1.1
+  equatable: ^1.2.5
 
 dev_dependencies:
   flutter_test:

@@ -295,15 +295,16 @@ class Homepage  extends StatefulWidget {
     @override
     void initState() {
       super.initState();
-      feed = User.fromJson(json);
-      fetchten();
+//      feed = User.fromJson(json);
+//      fetchten();
       _scrollController.addListener(() {
         print(_scrollController.position.pixels);
         if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
 
           print("true");
           if(c<=5){
-          fetchten();}
+//          fetchten();
+          }
           c++;
         }
       });
@@ -433,14 +434,14 @@ class Homepage  extends StatefulWidget {
 
 
   }
-  fetchten(){
-    for(int i=0;i<10;i++){
-      setState(() {
-        name.add(feed.value[i].name);
-        post.add(feed.value[i].post);
-        profile.add(feed.value[i].profile);
-      });
-
-    }
-  }
+//  fetchten(){
+//    for(int i=0;i<10;i++){
+//      setState(() {
+//        name.add(feed.value[i].name);
+//        post.add(feed.value[i].post);
+//        profile.add(feed.value[i].profile);
+//      });
+//
+//    }
+//  }
 }
