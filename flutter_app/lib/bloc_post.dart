@@ -4,7 +4,12 @@ import 'bloc_state.dart';
 import 'jsonModelFeed.dart';
 
 class PostBloc extends Bloc<PostEvent,PostState> {
-  PostBloc(PostState PostInitialState) : super(PostInitialState);
+  PostBloc(PostState initialState) : super(initialState);
+
+//  PostBloc(PostState PostInitialState) : super(PostInitialState);
+@override
+PostState get initialState=> PostInitialState();
+
 
   var json={
   "Value":[

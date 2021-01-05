@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterapp/aboutpage.dart';
+import 'package:flutterapp/bloc_post.dart';
 import 'package:flutterapp/drawer.dart';
 import 'package:flutterapp/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +10,9 @@ import 'package:flutterapp/profile.dart';
 import 'package:flutterapp/jsonModelFeed.dart';
 
 import 'dart:convert';
+
+import 'bloc_event.dart';
+import 'bloc_state.dart';
 
 bool _enable=false;
 //Future<String> _loadAStudentAsset() async {
@@ -289,14 +294,17 @@ class Homepage  extends StatefulWidget {
   List<String> name=new List();
   List<String> profile=new List();
   List<String> post=new List();
+  PostBloc postBloc;
 
-    User feed;
+//    User feed;
     int c=1;
     @override
     void initState() {
       super.initState();
 //      feed = User.fromJson(json);
 //      fetchten();
+      postBloc=BlocProvider.of<PostBloc>(context);
+      postBloc.add(FetchPostEvent());
       _scrollController.addListener(() {
         print(_scrollController.position.pixels);
         if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
@@ -304,6 +312,7 @@ class Homepage  extends StatefulWidget {
           print("true");
           if(c<=5){
 //          fetchten();
+
           }
           c++;
         }
@@ -338,48 +347,17 @@ class Homepage  extends StatefulWidget {
   Widget build(BuildContext context) {
 
     final tabs=[
-       ListView.builder(
-            controller: _scrollController,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics:ScrollPhysics(),
-            itemBuilder: (context, index){
-              return Container(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 12.0,
-                          vertical: 8.0),
-                      child: Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                            radius: 25.0,
-                            backgroundImage: NetworkImage(profile[index]),
-                          ),
-                          SizedBox(height: 15.0,width: 15.0,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(name[index],style: TextStyle(fontSize: 20,color: Colors.grey),),
-                              Text('42 liked 29 photos',style:TextStyle(fontSize: 12,fontWeight: FontWeight.bold)),
-
-                            ],
-                          ),
-                          Expanded(child: Container()),
-                          Text('4 hours ago',style: TextStyle(fontSize: 9,color: Colors.grey,fontWeight: FontWeight.bold),)
-                        ],
-                      ),
-                    ),
-                    Image.network(post[index],fit:BoxFit.fill),
-                  ],
-                ),
-              );
-            },itemCount:name.length
-        ),
-
+      Container(
+        child: BlocBuilder<PostBloc,PostState>(
+          builder: (context,state){
+            if(state is PostInitialState){
+              return buildLoading();
+            }else if(state is PostLoadedState){
+              return buildFeed(state.name, state.profile, post);
+            }
+          },
+        )
+      ),
 //      Center(child: Text('Coming soon')),
       Center(child: Text('Coming soon')),
       Profile()
@@ -432,6 +410,55 @@ class Homepage  extends StatefulWidget {
     );
 
 
+
+  }
+  Widget buildLoading(){
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+  }
+  Widget buildFeed(List<String> name,List<String> profile,List<String> post){
+      return ListView.builder(
+          controller: _scrollController,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics:ScrollPhysics(),
+          itemBuilder: (context, index){
+            return Container(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 8.0),
+                    child: Row(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage: NetworkImage(profile[index]),
+                        ),
+                        SizedBox(height: 15.0,width: 15.0,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(name[index],style: TextStyle(fontSize: 20,color: Colors.grey),),
+                            Text('42 liked 29 photos',style:TextStyle(fontSize: 12,fontWeight: FontWeight.bold)),
+
+                          ],
+                        ),
+                        Expanded(child: Container()),
+                        Text('4 hours ago',style: TextStyle(fontSize: 9,color: Colors.grey,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                  ),
+                  Image.network(post[index],fit:BoxFit.fill),
+                ],
+              ),
+            );
+          },itemCount:name.length
+      );
 
   }
 //  fetchten(){

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterapp/bloc_post.dart';
 import 'package:flutterapp/homepage.dart';
 
 void main() {
@@ -25,7 +27,9 @@ class MyApp extends StatelessWidget {
      child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Login Page',
-      home: MyHomePage(),
+      home:BlocProvider(
+        create: (context)=>PostBloc(),
+      )
     ),
     );
   }

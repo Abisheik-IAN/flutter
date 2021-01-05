@@ -14,7 +14,7 @@ class PostLoadedState extends PostState{
   List<String> name=new List();
   List<String> profile=new List();
   List<String> post=new List();
-  PostLoadedState({@required this.name,this.profile, this.post});
+  PostLoadedState({@required this.name,this.profile,this.post});
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();
