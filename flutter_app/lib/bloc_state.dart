@@ -11,10 +11,11 @@ class PostInitialState extends PostState{
 }
 
 class PostLoadedState extends PostState{
-  List<String> name=new List();
-  List<String> profile=new List();
-  List<String> post=new List();
-  PostLoadedState({@required this.name,this.profile,this.post});
+//  List<String> name=new List();
+//  List<String> profile=new List();
+//  List<String> post=new List();
+  User feed;
+  PostLoadedState({@required this.feed});
   @override
   // TODO: implement props
   List<Object> get props => [];

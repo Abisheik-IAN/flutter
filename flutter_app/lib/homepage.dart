@@ -353,7 +353,7 @@ class Homepage  extends StatefulWidget {
             if(state is PostInitialState){
               return buildLoading();
             }else if(state is PostLoadedState){
-              return buildFeed(state.name, state.profile, post);
+              return buildFeed(state.feed);
             }
           },
         )
@@ -417,13 +417,14 @@ class Homepage  extends StatefulWidget {
         child: CircularProgressIndicator(),
       );
   }
-  Widget buildFeed(List<String> name,List<String> profile,List<String> post){
+  Widget buildFeed(User feed){
+      print(name.length.compareTo(0));
       return ListView.builder(
           controller: _scrollController,
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics:ScrollPhysics(),
-          itemCount:name.length.compareTo(0),
+          itemCount:feed.value.length,
           itemBuilder: (context, index){
             return Container(
               width: double.infinity,
@@ -438,13 +439,13 @@ class Homepage  extends StatefulWidget {
                       children: <Widget>[
                         CircleAvatar(
                           radius: 25.0,
-                          backgroundImage: NetworkImage(profile[index]),
+                          backgroundImage: NetworkImage(feed.value[index].profile),
                         ),
                         SizedBox(height: 15.0,width: 15.0,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(name[index],style: TextStyle(fontSize: 20,color: Colors.grey),),
+                            Text(feed.value[index].name,style: TextStyle(fontSize: 20,color: Colors.grey),),
                             Text('42 liked 29 photos',style:TextStyle(fontSize: 12,fontWeight: FontWeight.bold)),
 
                           ],
@@ -454,7 +455,7 @@ class Homepage  extends StatefulWidget {
                       ],
                     ),
                   ),
-                  Image.network(post[index],fit:BoxFit.fill),
+                  Image.network(feed.value[index].post,fit:BoxFit.fill),
                 ],
               ),
             );
