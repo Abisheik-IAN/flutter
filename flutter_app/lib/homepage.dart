@@ -303,7 +303,7 @@ class Homepage  extends StatefulWidget {
       super.initState();
 //      feed = User.fromJson(json);
 //      fetchten();
-      postBloc=BlocProvider.of<PostBloc>(context);
+      postBloc=PostBloc(PostInitialState());
       postBloc.add(FetchPostEvent());
       _scrollController.addListener(() {
         print(_scrollController.position.pixels);
@@ -312,7 +312,6 @@ class Homepage  extends StatefulWidget {
           print("true");
           if(c<=5){
 //          fetchten();
-
           }
           c++;
         }
@@ -349,6 +348,7 @@ class Homepage  extends StatefulWidget {
     final tabs=[
       Container(
         child: BlocBuilder<PostBloc,PostState>(
+          cubit: postBloc,
           builder: (context,state){
             if(state is PostInitialState){
               return buildLoading();
@@ -423,6 +423,7 @@ class Homepage  extends StatefulWidget {
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics:ScrollPhysics(),
+          itemCount:name.length.compareTo(0),
           itemBuilder: (context, index){
             return Container(
               width: double.infinity,
@@ -457,7 +458,7 @@ class Homepage  extends StatefulWidget {
                 ],
               ),
             );
-          },itemCount:name.length
+          },
       );
 
   }

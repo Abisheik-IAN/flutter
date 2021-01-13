@@ -70,21 +70,31 @@ PostState get initialState=> PostInitialState();
   User feed;
 
   @override
-  Stream<PostState> mapEventToState(PostEvent event) {
+  Stream<PostState> mapEventToState(PostEvent event) async* {
     if(event is FetchPostEvent){
+//      feed = User.fromJson(json);
+//      fetchten();
       feed = User.fromJson(json);
-      fetchten();
-      PostLoadedState(name: name,profile: profile,post: post);
+      for(int i=0;i<10;i++){
+
+        name.add(feed.value[i].name);
+        post.add(feed.value[i].post);
+        profile.add(feed.value[i].profile);
+//        print(name.length);
+      }
+      print(name.length);
+      yield PostLoadedState(name: name,profile: profile,post: post);
     }
   }
   fetchten(){
+    feed = User.fromJson(json);
     for(int i=0;i<10;i++){
 
         name.add(feed.value[i].name);
         post.add(feed.value[i].post);
         profile.add(feed.value[i].profile);
-
-
+//        print(name[i]);
     }
+
   }
 }

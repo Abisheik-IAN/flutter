@@ -17,5 +17,5 @@ class PostLoadedState extends PostState{
   PostLoadedState({@required this.name,this.profile,this.post});
   @override
   // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
+  List<Object> get props => [];
 }

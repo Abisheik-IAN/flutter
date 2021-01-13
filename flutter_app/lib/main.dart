@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterapp/bloc_post.dart';
 import 'package:flutterapp/homepage.dart';
 
+import 'bloc_state.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Login Page',
       home:BlocProvider(
-        create: (context)=>PostBloc(),
+        create: (context)=>PostBloc(PostInitialState()),
+        child: MyHomePage(),
       )
     ),
     );
