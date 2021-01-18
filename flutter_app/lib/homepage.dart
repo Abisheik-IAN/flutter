@@ -13,6 +13,11 @@ import 'dart:convert';
 
 import 'bloc_event.dart';
 import 'bloc_state.dart';
+import 'redux_state.dart';
+import 'redux_event.dart';
+import 'redux_function.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 bool _enable=false;
 //Future<String> _loadAStudentAsset() async {
@@ -303,8 +308,9 @@ class Homepage  extends StatefulWidget {
       super.initState();
 //      feed = User.fromJson(json);
 //      fetchten();
-      postBloc=PostBloc(PostInitialState());
-      postBloc.add(FetchPostEvent());
+      // bloc pattern
+//      postBloc=PostBloc(PostInitialState());
+//      postBloc.add(FetchPostEvent());
       _scrollController.addListener(() {
         print(_scrollController.position.pixels);
         if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
@@ -347,16 +353,27 @@ class Homepage  extends StatefulWidget {
 
     final tabs=[
       Container(
-        child: BlocBuilder<PostBloc,PostState>(
-          cubit: postBloc,
-          builder: (context,state){
-            if(state is PostInitialState){
-              return buildLoading();
-            }else if(state is PostLoadedState){
-              return buildFeed(state.feed);
-            }
-          },
-        )
+        child:SingleChildScrollView(
+          child:StoreConnector<AppState,_Feed>(
+          converter:(Store<AppState> store)=> _Feed.create(store),
+          builder:(BuildContext context,_Feed _feed)=>Column(
+            children: [
+              AddItemWidget(_feed)
+
+            ],
+          ),
+        ),)
+        // bloc pattern
+//        child: BlocBuilder<PostBloc,PostState>(
+//          cubit: postBloc,
+//          builder: (context,state){
+//            if(state is PostInitialState){
+//              return buildLoading();
+//            }else if(state is PostLoadedState){
+//              return buildFeed(state.feed);
+//            }
+//          },
+//        )
       ),
 //      Center(child: Text('Coming soon')),
       Center(child: Text('Coming soon')),
@@ -412,6 +429,7 @@ class Homepage  extends StatefulWidget {
 
 
   }
+  // bloc pattern starts
   Widget buildLoading(){
       return Center(
         child: CircularProgressIndicator(),
@@ -463,6 +481,8 @@ class Homepage  extends StatefulWidget {
       );
 
   }
+  //bloc pateeren ends
+  
 //  fetchten(){
 //    for(int i=0;i<10;i++){
 //      setState(() {
@@ -473,4 +493,66 @@ class Homepage  extends StatefulWidget {
 //
 //    }
 //  }
+}
+// Redux
+class AddItemWidget extends StatelessWidget {
+  final _Feed _feed;
+AddItemWidget(this._feed);
+  ScrollController _scrollController = new ScrollController();
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: _scrollController,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics:ScrollPhysics(),
+      itemCount:post.value.length,
+      itemBuilder: (context, index){
+        return Container(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 8.0),
+                child: Row(
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 25.0,
+                      backgroundImage: NetworkImage(post.value[index].profile),
+                    ),
+                    SizedBox(height: 15.0,width: 15.0,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(post.value[index].name,style: TextStyle(fontSize: 20,color: Colors.grey),),
+                        Text('42 liked 29 photos',style:TextStyle(fontSize: 12,fontWeight: FontWeight.bold)),
+
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                    Text('4 hours ago',style: TextStyle(fontSize: 9,color: Colors.grey,fontWeight: FontWeight.bold),)
+                  ],
+                ),
+              ),
+              Image.network(post.value[index].post,fit:BoxFit.fill),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+class _Feed {
+  final List<User> post;
+  //  final Function(String) onAddItem;
+  //  User details;
+  _Feed({this.post});
+
+  factory _Feed.create(Store<AppState> store) {
+    return _Feed(
+        post: store.state.post);
+  }
 }

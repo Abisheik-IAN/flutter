@@ -3,6 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterapp/bloc_post.dart';
 import 'package:flutterapp/homepage.dart';
+import 'package:flutterapp/redux_event.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutterapp/redux_function.dart';
+import 'package:redux/redux.dart';
 
 import 'bloc_state.dart';
 
@@ -18,6 +22,10 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    final Store<AppState> store = Store<AppState>(
+      appStateReducer,
+      initialState: AppState.initialState(),);
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -26,12 +34,20 @@ class MyApp extends StatelessWidget {
           FocusManager.instance.primaryFocus.unfocus();
         }
       },
-     child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Login Page',
-      home:BlocProvider(
-        create: (context)=>PostBloc(PostInitialState()),
-        child: MyHomePage(),
+     child:
+      // redux
+      StoreProvider<AppState>(
+        store: store,
+        child:MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Login Page',
+          home:MyHomePage(),
+
+
+//    bloc pattern
+//    home:BlocProvider(
+//    create: (context)=>PostBloc(PostInitialState()),
+//    child: MyHomePage(),
       )
     ),
     );
